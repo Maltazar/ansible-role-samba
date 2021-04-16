@@ -57,6 +57,10 @@
   domain master = {{ samba_domain_master | ternary('yes', 'no') }}
   preferred master = {{ samba_preferred_master | ternary('yes', 'no') }}
 
+{% if samba_allow_insecure_links is defined %}
+  allow insecure wide links = {{ samba_allow_insecure_links | ternary('yes', 'no') }}
+{% endif %}
+
 {% if not samba_load_printers %}
   # Don't load printers
   load printers = no
@@ -132,6 +136,12 @@
 {% endif %}
 {% if share.writable is defined %}
   writable = {{ share.writable }}
+{% endif %}
+{% if share.follow_symlinks is defined %}
+  follow symlinks = {{ share.follow_symlinks }}
+{% endif %}
+{% if share.wide_links is defined %}
+  wide links = {{ share.wide_links }}
 {% endif %}
   create mode = {{ share.create_mode|default('0664') }}
   force create mode = {{ share.force_create_mode|default('0664') }}
